@@ -103,7 +103,11 @@ public class Tetromino : MonoBehaviour {
             else
             {
                 transform.position += new Vector3(0, 1, 0);
+
+                FindObjectOfType<Game>().DeleteRow();
+
                 enabled = false;
+
                 FindObjectOfType<Game>().SpawnNextTetromino();
             }
 
@@ -117,7 +121,8 @@ public class Tetromino : MonoBehaviour {
         {
             Vector2 pos = FindObjectOfType<Game>().Round(mino.position);
             
-            if (FindObjectOfType<Game>().CheckIsInsideGrid (pos) == false) {
+            if (FindObjectOfType<Game>().CheckIsInsideGrid (pos) == false)
+            {
                 return false;
             }
 
