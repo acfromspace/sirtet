@@ -36,6 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4359409517271594}
   - component: {fileID: 114846295784205072}
+  - component: {fileID: 82355576227623132}
   m_Layer: 0
   m_Name: Tetromino_J
   m_TagString: Untagged
@@ -160,6 +161,86 @@ Transform:
   m_Father: {fileID: 4359409517271594}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &82355576227623132
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1176639857975556}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &114846295784205072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -174,6 +255,10 @@ MonoBehaviour:
   fallSpeed: 1
   allowRotation: 1
   limitRotation: 0
+  individualScore: 100
+  moveSound: {fileID: 8300000, guid: 1e28996646b165f42be61f344ff3460f, type: 3}
+  rotateSound: {fileID: 8300000, guid: 81cbc3b3dfbc9324980b6690be7fdc74, type: 3}
+  landSound: {fileID: 8300000, guid: 5314d28393a87ce4c8c98695e83b1054, type: 3}
 --- !u!212 &212128830869055524
 SpriteRenderer:
   m_ObjectHideFlags: 1

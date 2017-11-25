@@ -10,15 +10,39 @@ public class Tetromino : MonoBehaviour {
     public bool allowRotation = true;
     public bool limitRotation = false;
 
+    public int individualScore = 100;
+    private float individualScoreTime;
+
+    public AudioClip moveSound;
+    public AudioClip rotateSound;
+    public AudioClip landSound;
+    private AudioSource audioSource;
+
 	// Use this for initialization
 	void Start () {
-		
+        audioSource = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         CheckUserInput();
+        UpdateIndividualScore();
 	}
+
+    void UpdateIndividualScore ()
+    {
+        if (individualScoreTime < 1)
+        {
+            individualScoreTime += Time.deltaTime;
+        }
+        else
+        {
+            individualScoreTime = 0;
+
+            // Avoids score to drop below 0, so it'll be around individualScore ~ 0 points
+            individualScore = Mathf.Max(individualScore - 10, 0);
+        }
+    }
 
     void CheckUserInput() {
 
@@ -29,6 +53,7 @@ public class Tetromino : MonoBehaviour {
             if (CheckIsValidPosition())
             {
                 FindObjectOfType<Game>().UpdateGrid(this);
+                PlayMoveAudio();
             } else
             {
                 transform.position += new Vector3(-1, 0, 0);
@@ -41,6 +66,7 @@ public class Tetromino : MonoBehaviour {
             if (CheckIsValidPosition())
             {
                 FindObjectOfType<Game>().UpdateGrid(this);
+                PlayMoveAudio();
             }
             else
             {
@@ -71,6 +97,7 @@ public class Tetromino : MonoBehaviour {
                 if (CheckIsValidPosition())
                 {
                     FindObjectOfType<Game>().UpdateGrid(this);
+                    PlayRotateAudio();
                 }
                 else
                 {
@@ -99,6 +126,11 @@ public class Tetromino : MonoBehaviour {
             if (CheckIsValidPosition())
             {
                 FindObjectOfType<Game>().UpdateGrid(this);
+
+                if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    PlayMoveAudio();
+                }
             }
             else
             {
@@ -106,13 +138,37 @@ public class Tetromino : MonoBehaviour {
 
                 FindObjectOfType<Game>().DeleteRow();
 
-                enabled = false;
+                if (FindObjectOfType<Game>().CheckIsAboveGrid(this))
+                {
+                    FindObjectOfType<Game>().GameOver();
+                }
+
+                PlayLandAudio();
 
                 FindObjectOfType<Game>().SpawnNextTetromino();
+
+                Game.currentScore += individualScore;
+
+                enabled = false;
             }
 
             fall = Time.time;
         }
+    }
+
+    void PlayMoveAudio ()
+    {
+        audioSource.PlayOneShot(moveSound);
+    }
+
+    void PlayRotateAudio ()
+    {
+        audioSource.PlayOneShot(rotateSound);
+    }
+
+    void PlayLandAudio ()
+    {
+        audioSource.PlayOneShot(landSound);
     }
 
     bool CheckIsValidPosition ()

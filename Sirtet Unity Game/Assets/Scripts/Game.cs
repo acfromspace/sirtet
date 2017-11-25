@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Game : MonoBehaviour {
 
@@ -9,13 +11,110 @@ public class Game : MonoBehaviour {
 
     public static Transform[,] grid = new Transform[gridWidth, gridHeight];
 
+    public int scoreOneLine = 40;
+    public int scoreTwoLine = 100;
+    public int scoreThreeLine = 300;
+    public int scoreFourLine = 1200;
+
+    public AudioClip clearedLineSound;
+
+    public Text hud_score;
+
+    private int numberOfRowsThisTurn = 0;
+
+    private AudioSource audioSource;
+
+    public static int currentScore = 0;
+
 	// Use this for initialization
 	void Start () {
 
         SpawnNextTetromino();
+
+        audioSource = GetComponent<AudioSource>();
 	}
 
-    // No update function due to tetrominos updating themselves
+    void Update()
+    {
+        UpdateScore();
+
+        UpdateUI();
+    }
+
+    public void UpdateUI ()
+    {
+        hud_score.text = currentScore.ToString();
+    }
+
+    public void UpdateScore ()
+    {
+        if (numberOfRowsThisTurn > 0)
+        {
+            if (numberOfRowsThisTurn == 1)
+            {
+                ClearedOneLine();
+            }
+            else if (numberOfRowsThisTurn == 2)
+            {
+                ClearedTwoLines();
+            }
+            else if (numberOfRowsThisTurn == 3)
+            {
+                ClearedThreeLines();
+            }
+            else if (numberOfRowsThisTurn == 4)
+            {
+                ClearedFourLines();
+            }
+
+            numberOfRowsThisTurn = 0;
+
+            PlayLineClearedSound();
+        }
+    }
+
+    public void ClearedOneLine ()
+    {
+        currentScore += scoreOneLine;
+    }
+
+    public void ClearedTwoLines ()
+    {
+        currentScore += scoreTwoLine;
+    }
+
+    public void ClearedThreeLines ()
+    {
+        currentScore += scoreThreeLine;
+    }
+
+    public void ClearedFourLines ()
+    {
+        currentScore += scoreFourLine;
+    }
+
+    public void PlayLineClearedSound ()
+    {
+        audioSource.PlayOneShot(clearedLineSound);
+    }
+
+    public bool CheckIsAboveGrid (Tetromino tetromino)
+    {
+        for (int x = 0; x < gridWidth; ++x)
+        {
+            foreach (Transform mino in tetromino.transform)
+            {
+                Vector2 pos = Round(mino.position);
+
+                if (pos.y > gridHeight - 1)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
     public bool IsFullRowAt (int y)
     {
@@ -27,6 +126,9 @@ public class Game : MonoBehaviour {
                 return false;
             }
         }
+        
+        // Since we found a full row, increment the full row variable
+        numberOfRowsThisTurn++;
 
         // Row is full
         return true;
@@ -166,5 +268,10 @@ public class Game : MonoBehaviour {
         }
 
         return randomTetrominoName;
+    }
+
+    public void GameOver ()
+    {
+        SceneManager.LoadScene("GameOver");
     }
 }
