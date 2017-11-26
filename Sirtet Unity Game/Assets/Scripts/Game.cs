@@ -11,14 +11,25 @@ public class Game : MonoBehaviour {
 
     public static Transform[,] grid = new Transform[gridWidth, gridHeight];
 
-    public int scoreOneLine = 40;
-    public int scoreTwoLine = 100;
-    public int scoreThreeLine = 300;
-    public int scoreFourLine = 1200;
+    public static bool startingAtLevelZero;
+    public static int startingLevel;
+
+    public int scoreOneLine = 100;
+    public int scoreTwoLine = 200;
+    public int scoreThreeLine = 400;
+    public int scoreFourLine = 800;
+
+    public int currentLevel = 0;
+    private int numLinesCleared = 0;
+
+    public static float fallSpeed = 1.0f;
 
     public AudioClip clearedLineSound;
+    float volume = 1.5f;
 
     public Text hud_score;
+    public Text hud_level;
+    public Text hud_lines;
 
     private int numberOfRowsThisTurn = 0;
 
@@ -26,24 +37,55 @@ public class Game : MonoBehaviour {
 
     public static int currentScore = 0;
 
+    private GameObject previewTetromino;
+    private GameObject nextTetromino;
+
+    private bool gameStarted = false;
+
+    private Vector2 previewTetrominoPosition = new Vector2 (-6.5f, 16);
+
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
+        currentLevel = startingLevel;
 
         SpawnNextTetromino();
 
         audioSource = GetComponent<AudioSource>();
 	}
 
-    void Update()
+    void Update ()
     {
         UpdateScore();
 
         UpdateUI();
+
+        UpdateLevel();
+
+        UpdateSpeed();
+    }
+
+    void UpdateLevel ()
+    {
+        if (startingAtLevelZero == true || (startingAtLevelZero == false && numLinesCleared / 10 > startingLevel))
+        {
+            // Every 10 lines increases the level and there's no floats due to being strictly int
+            currentLevel = numLinesCleared / 10;
+        }
+
+    }
+
+    void UpdateSpeed ()
+    {
+        // Level 1, 1 - 0.1 = 0.9 which is the time to take to go down
+        fallSpeed = 1.0f - ((float)currentLevel * 0.1f);
     }
 
     public void UpdateUI ()
     {
         hud_score.text = currentScore.ToString();
+        hud_level.text = currentLevel.ToString();
+        hud_lines.text = numLinesCleared.ToString();
     }
 
     public void UpdateScore ()
@@ -75,27 +117,31 @@ public class Game : MonoBehaviour {
 
     public void ClearedOneLine ()
     {
-        currentScore += scoreOneLine;
+        currentScore += scoreOneLine + (currentLevel * 25);
+        numLinesCleared += 1;
     }
 
     public void ClearedTwoLines ()
     {
-        currentScore += scoreTwoLine;
+        currentScore += scoreTwoLine + (currentLevel * 50);
+        numLinesCleared += 2;
     }
 
     public void ClearedThreeLines ()
     {
-        currentScore += scoreThreeLine;
+        currentScore += scoreThreeLine + (currentLevel * 75);
+        numLinesCleared += 3;
     }
 
     public void ClearedFourLines ()
     {
-        currentScore += scoreFourLine;
+        currentScore += scoreFourLine + (currentLevel * 100);
+        numLinesCleared += 4;
     }
 
     public void PlayLineClearedSound ()
     {
-        audioSource.PlayOneShot(clearedLineSound);
+        audioSource.PlayOneShot(clearedLineSound, volume);
     }
 
     public bool CheckIsAboveGrid (Tetromino tetromino)
@@ -220,9 +266,29 @@ public class Game : MonoBehaviour {
         }
     }
 
+    // Disregard error as it is made during the dynamic gameplay
     public void SpawnNextTetromino ()
     {
-        GameObject nextTetromino = (GameObject)Instantiate(Resources.Load(GetRandomTetromino(), typeof(GameObject)), new Vector2(5.0f, 20.0f), Quaternion.identity);
+        if (!gameStarted)
+        {
+            gameStarted = true;
+
+            nextTetromino = (GameObject)Instantiate(Resources.Load(GetRandomTetromino(), typeof(GameObject)), new Vector2(5.0f, 20.0f), Quaternion.identity);
+            previewTetromino = (GameObject)Instantiate(Resources.Load(GetRandomTetromino(), typeof(GameObject)), previewTetrominoPosition, Quaternion.identity);
+            // Makees preview tetromino not move
+            previewTetromino.GetComponent<Tetromino>().enabled = false;
+        }
+        else
+        {
+            // Puts the preview tetromino as the piece in play
+            previewTetromino.transform.localPosition = new Vector2(5.0f, 20.0f);
+            nextTetromino = previewTetromino;
+            nextTetromino.GetComponent<Tetromino>().enabled = true;
+
+            previewTetromino = (GameObject)Instantiate(Resources.Load(GetRandomTetromino(), typeof(GameObject)), previewTetrominoPosition, Quaternion.identity);
+            // Makees preview tetromino not move
+            previewTetromino.GetComponent<Tetromino>().enabled = false;
+        }
     }
 
     public bool CheckIsInsideGrid (Vector2 pos)
