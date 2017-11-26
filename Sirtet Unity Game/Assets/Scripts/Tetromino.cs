@@ -42,9 +42,12 @@ public class Tetromino : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        CheckUserInput();
-        UpdateIndividualScore();
-        UpdateFallSpeed();
+        if (!Game.isPaused)
+        {
+            CheckUserInput();
+            UpdateIndividualScore();
+            UpdateFallSpeed();
+        }
 	}
 
     void UpdateFallSpeed ()
@@ -109,6 +112,11 @@ public class Tetromino : MonoBehaviour {
         if (Input.GetKey(KeyCode.DownArrow) || Time.time - fall >= fallSpeed)
         {
             MoveDown();
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            HardDrop();
         }
     }
 
@@ -241,6 +249,8 @@ public class Tetromino : MonoBehaviour {
 
             Game.currentScore += individualScore;
 
+            FindObjectOfType<Game>().UpdateHighScore();
+
             enabled = false;
         }
 
@@ -292,6 +302,11 @@ public class Tetromino : MonoBehaviour {
                 }
             }
         }
+    }
+
+    void HardDrop ()
+    {
+        // Nothing yet
     }
 
     void PlayMoveAudio ()

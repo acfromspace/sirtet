@@ -8,9 +8,17 @@ public class GameMenu : MonoBehaviour {
 
     public Text levelText;
 
+    public Text highScoreText;
+
     void Start ()
     {
         levelText.text = "0";
+        highScoreText.text = PlayerPrefs.GetInt("highScore").ToString();
+    }
+
+    public void Credits ()
+    {
+
     }
 
 	public void PlayGame ()
@@ -24,6 +32,11 @@ public class GameMenu : MonoBehaviour {
             Game.startingAtLevelZero = false;
         }
         SceneManager.LoadScene("Main");
+    }
+
+    public void QuitGame ()
+    {
+        Application.Quit();
     }
 
     public void ChangedValue (float value)
