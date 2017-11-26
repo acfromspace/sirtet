@@ -14,6 +14,9 @@ public class Game : MonoBehaviour {
     public static bool startingAtLevelZero;
     public static int startingLevel;
 
+    public Canvas hud_canvas;
+    public Canvas pause_canvas;
+
     public int scoreOneLine = 100;
     public int scoreTwoLine = 200;
     public int scoreThreeLine = 400;
@@ -23,6 +26,7 @@ public class Game : MonoBehaviour {
     private int numLinesCleared = 0;
 
     public static float fallSpeed = 1.0f;
+    public static bool isPaused = false;
 
     public AudioClip clearedLineSound;
     float volume = 1.5f;
@@ -42,16 +46,28 @@ public class Game : MonoBehaviour {
 
     private bool gameStarted = false;
 
+    private int startingHighScore;
+
     private Vector2 previewTetrominoPosition = new Vector2 (-6.5f, 16);
 
 	// Use this for initialization
 	void Start ()
     {
+        currentScore = 0;
+
+        hud_score.text = "0";
+
         currentLevel = startingLevel;
+
+        hud_level.text = currentLevel.ToString();
+
+        hud_lines.text = "0";
 
         SpawnNextTetromino();
 
         audioSource = GetComponent<AudioSource>();
+
+        startingHighScore = PlayerPrefs.GetInt("highScore");
 	}
 
     void Update ()
@@ -63,6 +79,43 @@ public class Game : MonoBehaviour {
         UpdateLevel();
 
         UpdateSpeed();
+
+        UpdateHighScore();
+
+        CheckUserInput();
+    }
+
+    void CheckUserInput ()
+    {
+        if (Input.GetKeyUp(KeyCode.P))
+        {
+            if (Time.timeScale == 1)
+            {
+                PauseGame();
+            }
+            else
+            {
+                ResumeGame();
+            }
+        }
+    }
+
+    void PauseGame ()
+    {
+        Time.timeScale = 0;
+        audioSource.Pause();
+        isPaused = true;
+        hud_canvas.enabled = false;
+        pause_canvas.enabled = true;
+    }
+
+    void ResumeGame ()
+    {
+        Time.timeScale = 1;
+        audioSource.Play();
+        isPaused = false;
+        hud_canvas.enabled = true;
+        pause_canvas.enabled = false;
     }
 
     void UpdateLevel ()
@@ -111,6 +164,8 @@ public class Game : MonoBehaviour {
 
             numberOfRowsThisTurn = 0;
 
+            FindObjectOfType<Game>().UpdateHighScore();
+
             PlayLineClearedSound();
         }
     }
@@ -142,6 +197,14 @@ public class Game : MonoBehaviour {
     public void PlayLineClearedSound ()
     {
         audioSource.PlayOneShot(clearedLineSound, volume);
+    }
+
+    public void UpdateHighScore ()
+    {
+        if (currentScore > startingHighScore)
+        {
+            PlayerPrefs.SetInt("highScore", currentScore); 
+        }
     }
 
     public bool CheckIsAboveGrid (Tetromino tetromino)
