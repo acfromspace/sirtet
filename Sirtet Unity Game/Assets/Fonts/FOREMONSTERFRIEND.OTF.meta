@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 9626cc350a789aa4ebc9fdf912464f1d
+timeCreated: 1511661119
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Monster Friend Fore
+  fontNames:
+  - Monster Friend Fore
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

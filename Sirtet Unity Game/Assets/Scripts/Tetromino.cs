@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*  Author: AC De Leon
+ *  Game: Sirtet
+ * */
+
 public class Tetromino : MonoBehaviour {
 
+    // How fast the tetrominos fall
     float fall = 0;
     private float fallSpeed;
 
+    // Rotation syntax for specific tetrominos, for example, squares don't rotate
     public bool allowRotation = true;
     public bool limitRotation = false;
 
+    // Used for time difference between users, faster = more points, slower = less points
     public int individualScore = 100;
     private float individualScoreTime;
 
+    // Audio files for movement
     public AudioClip moveSound;
     public AudioClip rotateSound;
     public AudioClip landSound;
@@ -25,11 +33,11 @@ public class Tetromino : MonoBehaviour {
     // How long to wait before tetromino recognizes that a button is being held down
     private float buttonDownWaitMax = 0.2f;        
 
+    // Puts time in between key presses for user experience
     private float verticalTimer = 0;
     private float horizontalTimer = 0;
     private float buttonDownWaitTimerHorizontal = 0;
     private float buttonDownWaitTimerVertical = 0;
-
     private bool movedImmediateHorizontal = false;
     private bool movedImmediateVertical = false;
 
@@ -42,7 +50,7 @@ public class Tetromino : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if (!Game.isPaused)
+        if (!GameManager.isPaused)
         {
             CheckUserInput();
             UpdateIndividualScore();
@@ -52,7 +60,7 @@ public class Tetromino : MonoBehaviour {
 
     void UpdateFallSpeed ()
     {
-        fallSpeed = Game.fallSpeed;
+        fallSpeed = GameManager.fallSpeed;
     }
 
     void UpdateIndividualScore ()
@@ -114,7 +122,7 @@ public class Tetromino : MonoBehaviour {
             MoveDown();
         }
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             HardDrop();
         }
@@ -151,7 +159,7 @@ public class Tetromino : MonoBehaviour {
 
         if (CheckIsValidPosition())
         {
-            FindObjectOfType<Game>().UpdateGrid(this);
+            FindObjectOfType<GameManager>().UpdateGrid(this);
             PlayMoveAudio();
         }
         else
@@ -191,7 +199,7 @@ public class Tetromino : MonoBehaviour {
 
         if (CheckIsValidPosition())
         {
-            FindObjectOfType<Game>().UpdateGrid(this);
+            FindObjectOfType<GameManager>().UpdateGrid(this);
             PlayMoveAudio();
         }
         else
@@ -229,29 +237,30 @@ public class Tetromino : MonoBehaviour {
 
         if (CheckIsValidPosition())
         {
-            FindObjectOfType<Game>().UpdateGrid(this);
-            PlayMoveAudio();
+            FindObjectOfType<GameManager>().UpdateGrid(this);
         }
         else
         {
             transform.position += new Vector3(0, 1, 0);
 
-            FindObjectOfType<Game>().DeleteRow();
+            FindObjectOfType<GameManager>().DeleteRow();
 
-            if (FindObjectOfType<Game>().CheckIsAboveGrid(this))
+            if (FindObjectOfType<GameManager>().CheckIsAboveGrid(this))
             {
-                FindObjectOfType<Game>().GameOver();
+                FindObjectOfType<GameManager>().GameOver();
             }
 
             PlayLandAudio();
 
-            FindObjectOfType<Game>().SpawnNextTetromino();
+            FindObjectOfType<GameManager>().SpawnNextTetromino();
 
-            Game.currentScore += individualScore;
+            GameManager.currentScore += individualScore;
 
-            FindObjectOfType<Game>().UpdateHighScore();
+            // FindObjectOfType<GameManager>().UpdateHighScore();
 
             enabled = false;
+
+            tag = "Untagged";
         }
 
         fall = Time.time;
@@ -280,7 +289,7 @@ public class Tetromino : MonoBehaviour {
 
             if (CheckIsValidPosition())
             {
-                FindObjectOfType<Game>().UpdateGrid(this);
+                FindObjectOfType<GameManager>().UpdateGrid(this);
                 PlayRotateAudio();
             }
             else
@@ -304,9 +313,37 @@ public class Tetromino : MonoBehaviour {
         }
     }
 
-    void HardDrop ()
+    public void HardDrop ()
     {
-        // Nothing yet
+        while (CheckIsValidPosition())
+        {
+            transform.position += new Vector3(0, -1, 0);
+        }
+
+        if (!CheckIsValidPosition())
+        {
+            transform.position += new Vector3(0, 1, 0);
+            FindObjectOfType<GameManager>().UpdateGrid(this);
+
+            FindObjectOfType<GameManager>().DeleteRow();
+
+            if (FindObjectOfType<GameManager>().CheckIsAboveGrid(this))
+            {
+                FindObjectOfType<GameManager>().GameOver();
+            }
+
+            PlayLandAudio();
+
+            FindObjectOfType<GameManager>().SpawnNextTetromino();
+
+            GameManager.currentScore += individualScore;
+
+            // FindObjectOfType<GameManager>().UpdateHighScore();
+            
+            enabled = false;
+
+            tag = "Untagged";
+        }
     }
 
     void PlayMoveAudio ()
@@ -328,14 +365,14 @@ public class Tetromino : MonoBehaviour {
     {
         foreach (Transform mino in transform)
         {
-            Vector2 pos = FindObjectOfType<Game>().Round(mino.position);
+            Vector2 pos = FindObjectOfType<GameManager>().Round(mino.position);
             
-            if (FindObjectOfType<Game>().CheckIsInsideGrid (pos) == false)
+            if (FindObjectOfType<GameManager>().CheckIsInsideGrid (pos) == false)
             {
                 return false;
             }
 
-            if (FindObjectOfType<Game>().GetTransformAtGridPosition(pos) != null && FindObjectOfType<Game>().GetTransformAtGridPosition(pos).parent != transform)
+            if (FindObjectOfType<GameManager>().GetTransformAtGridPosition(pos) != null && FindObjectOfType<GameManager>().GetTransformAtGridPosition(pos).parent != transform)
             {
                 return false;
             }
