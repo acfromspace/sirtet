@@ -11,9 +11,7 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour {
 
     public Text levelText;
-
     public Text highScoreText;
-
     public Text lastScore;
 
     void Start()
@@ -54,6 +52,9 @@ public class MenuManager : MonoBehaviour {
     public void LaunchGameMenu ()
     {
         SceneManager.LoadScene("MainMenu");
+        // Properly restarts the Level scene
+        FindObjectOfType<GameManager>().RestartGame();
+
     }
 
     public void LaunchHowToPlay ()

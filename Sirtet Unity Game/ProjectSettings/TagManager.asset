@@ -6,6 +6,7 @@ TagManager:
   tags:
   - currentActiveTetromino
   - currentSavedTetromino
+  - music
   layers:
   - Default
   - TransparentFX

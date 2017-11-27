@@ -898,7 +898,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "Game made and some assets made by AC De Leon\nMajority of assets made by:\nCapcom,
-    Square Enix, & Toby Fox \nSpecial thanks to the Weekly Coder"
+    Square Enix, Konami, & Toby Fox \nSpecial thanks to the Weekly Coder"
 --- !u!222 &1538442623
 CanvasRenderer:
   m_ObjectHideFlags: 0

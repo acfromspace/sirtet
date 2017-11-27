@@ -21,16 +21,12 @@ public class GameManager : MonoBehaviour {
     // Enables difficulty
     public static bool startingAtLevelZero;
     public static int startingLevel;
-
-    // Enables pausing
-    public Canvas hud_canvas;
-    public Canvas pause_canvas;
     
     // Amount of points to be earned
-    public int scoreOneLine = 100;
-    public int scoreTwoLine = 400;
-    public int scoreThreeLine = 800;
-    public int scoreFourLine = 1600;
+    public int scoreOneLine;
+    public int scoreTwoLine;
+    public int scoreThreeLine;
+    public int scoreFourLine;
     private int numberOfRowsThisTurn = 0;
 
     // Starting of the game
@@ -42,11 +38,14 @@ public class GameManager : MonoBehaviour {
     public static bool isPaused = false;
 
     // Audio
-    private AudioSource audioSource;
+    public AudioSource audioSource;
     public AudioClip clearedLineSound;
     float volume = 1.5f;
 
     // HUD
+    public Canvas hud_canvas;
+    public Canvas pause_canvas;
+    public Canvas dontLeaveMe_canvas;
     public Text hud_score;
     public Text hud_level;
     public Text hud_lines;
@@ -66,6 +65,12 @@ public class GameManager : MonoBehaviour {
     public int maxSwaps = 2;
     private int currentSwaps = 0;
 
+    // Camera control
+    [SerializeField]
+    Camera camera1;
+    [SerializeField]
+    Camera camera2;
+
 	void Start ()
     {
         currentScore = 0;
@@ -83,7 +88,10 @@ public class GameManager : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
 
         startingHighScore = PlayerPrefs.GetInt("highScore");
-	}
+
+        camera2.GetComponent<Camera>().enabled = false;
+        camera1.GetComponent<Camera>().enabled = true;
+    }
 
     void Update ()
     {
@@ -106,10 +114,14 @@ public class GameManager : MonoBehaviour {
         {
             if (Time.timeScale == 1)
             {
+                camera1.GetComponent<Camera>().enabled = false;
+                camera2.GetComponent<Camera>().enabled = true;
                 PauseGame();
             }
             else
             {
+                camera2.GetComponent<Camera>().enabled = false;
+                camera1.GetComponent<Camera>().enabled = true;
                 ResumeGame();
             }
         }
@@ -124,22 +136,33 @@ public class GameManager : MonoBehaviour {
         */
     }
 
-    void PauseGame ()
+    public void PauseGame ()
     {
         Time.timeScale = 0;
         audioSource.Pause();
         isPaused = true;
         hud_canvas.enabled = false;
         pause_canvas.enabled = true;
-    }
+        dontLeaveMe_canvas.enabled = false;
+}
 
-    void ResumeGame ()
+    public void ResumeGame ()
     {
         Time.timeScale = 1;
         audioSource.Play();
         isPaused = false;
         hud_canvas.enabled = true;
         pause_canvas.enabled = false;
+        dontLeaveMe_canvas.enabled = false;
+    }
+
+    public void RestartGame ()
+    {
+        Time.timeScale = 1;
+        isPaused = false;
+        hud_canvas.enabled = false;
+        pause_canvas.enabled = false;
+        dontLeaveMe_canvas.enabled = true;
     }
 
     void UpdateLevel ()
@@ -385,7 +408,7 @@ public class GameManager : MonoBehaviour {
 
             nextTetromino = (GameObject)Instantiate(Resources.Load(GetRandomTetromino(), typeof(GameObject)), new Vector2(5.0f, 20.0f), Quaternion.identity);
             previewTetromino = (GameObject)Instantiate(Resources.Load(GetRandomTetromino(), typeof(GameObject)), previewTetrominoPosition, Quaternion.identity);
-            // Makees preview tetromino not move
+            // Makes preview tetromino not move
             previewTetromino.GetComponent<Tetromino>().enabled = false;
             nextTetromino.tag = "currentActiveTetromino";
         }
@@ -398,7 +421,7 @@ public class GameManager : MonoBehaviour {
             nextTetromino.tag = "currentActiveTetromino";
 
             previewTetromino = (GameObject)Instantiate(Resources.Load(GetRandomTetromino(), typeof(GameObject)), previewTetrominoPosition, Quaternion.identity);
-            // Makees preview tetromino not move
+            // Makes preview tetromino not move
             previewTetromino.GetComponent<Tetromino>().enabled = false;
         }
 

@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 370b4d9bbe12251408f40716ba55a171
+timeCreated: 1511757326
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Papyrus UT
+  fontNames:
+  - Papyrus UT
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
