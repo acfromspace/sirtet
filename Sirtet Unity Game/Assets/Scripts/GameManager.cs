@@ -285,7 +285,7 @@ public class GameManager : MonoBehaviour {
             {
                 Vector2 pos = Round(mino.position);
 
-                if (pos.y > gridHeight - 1)
+                if (pos.y > gridHeight - 1) // Check this is it's causing the problem in the game
                 {
                     return true;
                 }
