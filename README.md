@@ -37,3 +37,7 @@ Includes gaming instructions, works cited, development log
 ## Authors
 
 * AC De Leon
+
+## [License](LICENSE)
+
+The code in this project is licensed under MIT license.
