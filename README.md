@@ -1,4 +1,4 @@
-# CS583_2D_Game_DeLeon_A_Sirtet
+# Sirtet
 
 All files associated with creating a 2D game for CS 583 at SDSU.
 
@@ -6,8 +6,8 @@ All files associated with creating a 2D game for CS 583 at SDSU.
 
 Files below describe content. Just clone/download and work the executable to play the game.
 
-
 ### Files
+
 * CS583_2D_Game_DeLeon_A_Sirtet_Executable
 
 ```
