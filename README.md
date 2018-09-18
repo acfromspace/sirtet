@@ -49,11 +49,11 @@ Go to <a href="https://acfromspace.itch.io/sirtet" target="_blank">https://acfro
 ## <span role="img" aria-label="Video Game">🎮</span> Controls
 
 ```txt
-Mouse: Use to navigate the menu.
-Left/Right/Down arrow keys: Move puzzle piece Left/Down/Right
-Up arrow key: Rotate piece
-"P": Pause menu (during gameplay)
-Spacebar: Slam piece down towards le ground
+Mouse = Use to navigate the menu.
+Left/Right/Down arrow keys = Move puzzle piece Left/Down/Right
+Up arrow key = Rotate piece
+"P" = Pause menu (during gameplay)
+Spacebar = Slam piece down towards the ground!
 
 Goal: Achieve a high score!
 ```
