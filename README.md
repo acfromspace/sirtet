@@ -27,15 +27,17 @@
 
 <!-- FEATURES -->
 
-![sirtetdemo](https://user-images.githubusercontent.com/10361542/45566631-22564e80-b80c-11e8-8d9e-5474309409d8.gif)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/10361542/45566631-22564e80-b80c-11e8-8d9e-5474309409d8.gif">
+</p>
 
-[*sirtet*](https://acfromspace.itch.io/sirtet) is a video game with the following features:
+[_sirtet_](https://acfromspace.itch.io/sirtet) is a video game with the following features:
 
 - **Premise.** Just putting puzzle blocks together, no big deal.
 
 - **Design Idea.** & then you realize "wow, this distortion is messing the puzzle piece placement up..."
 
-- **Future endeavors.** Every level would have a specific augmentation to the game whether it be on screen, sound, controls, in order to hinder the player. When the player achieves level 10, all previous augmentations are combined and Sans comes to stop you from beating the game.
+- **Potential endeavors.** Every level would have a specific augmentation to the game whether it be on screen, sound, controls, in order to hinder the player. When the player achieves level 10, all previous augmentations are combined and Sans comes to stop you from beating the game.
 
 <!-- QUICK INSTALLATION -->
 
