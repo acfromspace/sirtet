@@ -35,7 +35,7 @@
 
 - **Premise.** Just putting puzzle blocks together, no big deal.
 
-- **Design Idea.** & then you realize "wow, this distortion is messing the puzzle piece placement up..."
+- **Design.** & then you realize "wow, this distortion is messing the puzzle piece placement up..."
 
 - **Potential endeavors.** Every level would have a specific augmentation to the game whether it be on screen, sound, controls, in order to hinder the player. When the player achieves level 10, all previous augmentations are combined and Sans comes to stop you from beating the game.
 
