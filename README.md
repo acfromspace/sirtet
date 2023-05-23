@@ -15,7 +15,7 @@
 <!-- BADGES -->
 
 <p align="center">
-    <a href="https://github.com/acfromspace/sirtet/blob/master/LICENSE">
+    <a href="https://github.com/ctrlaltdeleon/sirtet/blob/master/LICENSE">
         <img src="https://img.shields.io/github/license/mashape/apistatus.svg"
             alt="License: MIT"></a>
     <a href="https://www.repostatus.org/#unsupported">
@@ -28,7 +28,7 @@
   <img src="https://user-images.githubusercontent.com/10361542/45566631-22564e80-b80c-11e8-8d9e-5474309409d8.gif">
 </p>
 
-[_sirtet_](https://acfromspace.itch.io/sirtet) is a video game with the following features:
+[_sirtet_](https://ctrlaltdeleon.itch.io/sirtet) is a video game with the following features:
 
 - **Premise.** Just putting puzzle blocks together, no big deal.
 
@@ -40,7 +40,7 @@
 
 ## <span role="img" aria-label="Sparkles">✨</span> Quick Installation
 
-Go to <a href="https://acfromspace.itch.io/sirtet" target="_blank">https://acfromspace.itch.io/sirtet</a> and download the `.exe` file!
+Go to <a href="https://ctrlaltdeleon.itch.io/sirtet" target="_blank">https://ctrlaltdeleon.itch.io/sirtet</a> and download the `.exe` file!
 
 <!-- IN-DEPTH GUIDE -->
 
